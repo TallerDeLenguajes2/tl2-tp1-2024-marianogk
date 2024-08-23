@@ -1,15 +1,18 @@
-﻿class Pedido
+﻿public class Pedido
 {
     class Cliente
     {
         private string nombre;
         private string direccion;
         private int telefono;
-        private string ref datosReferenciaDireccion;
+        private string datosReferenciaDireccion;
     }
     enum estado
     {
-
+        Pendiente,
+        EnProceso,
+        Completado,
+        Cancelado
     }
     private int nro;
     private string obs;
