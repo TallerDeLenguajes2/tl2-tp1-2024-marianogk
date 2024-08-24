@@ -12,4 +12,22 @@ public class Cadeteria
     {
         listadoCadetes = new List<Cadete>();
     }
+    public void AgregarCadete(Cadete cadete)
+    {
+        listadoCadetes.Add(cadete);
+    }
+
+    public void EliminarCadete(Cadete cadete)
+    {
+        listadoCadetes.Remove(cadete);
+    }
+    Cadete ObtenerCadetePorID(int id)
+    {
+        return ListadoCadetes[id];
+    }
+    List<Cadete> ObtenerListadoCadetes()
+    {
+        return ListadoCadetes;
+    }
+
 }

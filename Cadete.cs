@@ -16,4 +16,24 @@ public class Cadete
     {
         ListadoPedidos = new List<Pedido>();
     }
+    public void AgregarPedido(Pedido pedido)
+    {
+        listadoPedidos.Add(pedido);
+    }
+
+    public void EliminarPedido(Pedido pedido)
+    {
+        listadoPedidos.Remove(pedido);
+    }
+
+    List<Pedido> ObtenerPedidos()
+    {
+        return listadoPedidos;
+    }
+    public float CalcularJornal()
+    {
+        float valorPorPedido = 500;
+        return listadoPedidos.Count * valorPorPedido;
+    }
+
 }
