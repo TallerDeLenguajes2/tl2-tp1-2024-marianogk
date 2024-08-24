@@ -33,4 +33,17 @@ public class Pedido
         return cliente;
     }
 
+    void ActualizarEstado(EstadoP Estado)
+    {
+        estado = Estado;
+    }
+    public void MostrarPedido(Pedido pedido)
+    {
+        Console.WriteLine("\nPEDIDO Nro : " + pedido.Nro);
+        Console.WriteLine("Observacion: " + pedido.Obs);
+        Console.WriteLine("Estado: " + pedido.Estado);
+        Console.WriteLine("\nCLIENTE");
+        Cliente.MostrarCliente(pedido.Cliente);
+    }
+
 }

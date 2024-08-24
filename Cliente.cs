@@ -12,4 +12,12 @@ public class Cliente
 
     public Cliente() { }
 
+    public void MostrarCliente(Cliente cliente)
+    {
+        Console.WriteLine("Nombre: " + cliente.Nombre);
+        Console.WriteLine("Direccion: " + cliente.Direccion);
+        Console.WriteLine("Telefono: " + cliente.Telefono);
+        Console.WriteLine("Direccion referencia: " + cliente.DatosReferenciaDireccion);
+    }
+
 }
