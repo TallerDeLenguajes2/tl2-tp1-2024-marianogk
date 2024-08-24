@@ -2,7 +2,11 @@
 {
     public static void Main(string[] args)
     {
-        Pedido pedido1= new Pedido();
+        Pedido pedido1 = new();
+        
+        Cadete cadete1, cadete2;
+        cadete1 = new();
+        cadete2 = new();
 
         MenuPrincipal();
         string opcion;
@@ -15,13 +19,13 @@
                     Pedido.AltaPedido();
                     break;
                 case "2":
-                    Pedido.AsignarPedido();
+                    Pedido.AsignarPedido(cadete1, pedido1);
                     break;
                 case "3":
                     Pedido.ActualizarEstado(pedido1);
                     break;
                 case "4":
-                    Pedido.ReasignarPedido();
+                    Pedido.ReasignarPedido(cadete1, cadete2, pedido1);
                     break;
                 case "5":
                     opcion = "5";

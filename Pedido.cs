@@ -80,14 +80,14 @@ public class Pedido
         return nuevoPedido;
     }
 
-    public static void AsignarPedido()
+    public static void AsignarPedido(Cadete cadete, Pedido pedido)
     {
-        throw new NotImplementedException();
+        cadete.AgregarPedido(pedido);
     }
-    public static void ReasignarPedido()
+    public static void ReasignarPedido(Cadete cadete, Cadete cadeteNuevo, Pedido pedido)
     {
-        throw new NotImplementedException();
+        cadete.EliminarPedido(pedido);
+        cadeteNuevo.AgregarPedido(pedido);
     }
-
 
 }
