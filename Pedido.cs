@@ -33,9 +33,29 @@ public class Pedido
         return cliente;
     }
 
-    void ActualizarEstado(EstadoP Estado)
+    public static void ActualizarEstado(Pedido pedido)
     {
-        estado = Estado;
+        Console.WriteLine("\n1. Pendiente ");
+        Console.WriteLine("\n2. En Proceso ");
+        Console.WriteLine("\n3. Completado ");
+        Console.WriteLine("\n4. Cancelado ");
+        Console.WriteLine("\nINGRESE:");
+        string opcionEstado = Console.ReadLine();
+        switch (opcionEstado)
+        {
+            case "2":
+                pedido.Estado = EstadoP.EnProceso;
+                break;
+            case "3":
+                pedido.Estado = EstadoP.Completado;
+                break;
+            case "4":
+                pedido.Estado = EstadoP.Cancelado;
+                break;
+            default:
+                pedido.Estado = EstadoP.Pendiente;
+                break;
+        }
     }
     public void MostrarPedido(Pedido pedido)
     {
@@ -45,5 +65,29 @@ public class Pedido
         Console.WriteLine("\nCLIENTE");
         Cliente.MostrarCliente(pedido.Cliente);
     }
+    public static Pedido AltaPedido()
+    {
+        Pedido nuevoPedido = new();
+
+        Console.WriteLine("Ingrese el número del pedido:");
+        nuevoPedido.Nro = int.Parse(Console.ReadLine());
+        Console.WriteLine("Ingrese las observaciones del pedido:");
+        nuevoPedido.Obs = Console.ReadLine();
+        nuevoPedido.Estado = EstadoP.Pendiente;
+
+        nuevoPedido.Cliente = Cliente.CrearCliente();
+
+        return nuevoPedido;
+    }
+
+    public static void AsignarPedido()
+    {
+        throw new NotImplementedException();
+    }
+    public static void ReasignarPedido()
+    {
+        throw new NotImplementedException();
+    }
+
 
 }

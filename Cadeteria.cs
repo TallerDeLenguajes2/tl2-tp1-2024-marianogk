@@ -12,9 +12,24 @@ public class Cadeteria
     {
         listadoCadetes = new List<Cadete>();
     }
-    public void AgregarCadete(Cadete cadete)
+    public void AgregarCadete(string archivo)
     {
-        listadoCadetes.Add(cadete);
+        using var lector = new StreamReader(archivo);
+        string linea;
+        while ((linea = lector.ReadLine()) != null)
+        {
+            var valores = linea.Split(',');
+            
+            var cadete = new Cadete
+            {
+                Id = int.Parse(valores[0]),
+                Nombre = valores[1],
+                Direccion = valores[2],
+                Telefono = int.Parse(valores[3])
+            };
+
+            listadoCadetes.Add(cadete);
+        }
     }
 
     public void EliminarCadete(Cadete cadete)
