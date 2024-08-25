@@ -20,7 +20,7 @@ public class Pedido
     public Pedido()
     {
         Cliente = new Cliente();
-        // estado = Estado.Pendiente;
+        Estado = EstadoP.Pendiente;
     }
 
     public string DireccionCliente()
@@ -33,13 +33,33 @@ public class Pedido
         return cliente;
     }
 
+    public static void AgregarPedidoALista(Pedido pedido, List<Pedido> lista)
+    {
+        lista.Add(pedido);
+    }
+
+    // public static Pedido BuscarPedidoNro(int nro, List<Pedido> lista)
+    // {
+    //     var pedido = lista.FirstOrDefault(p => p.Nro == nro);
+
+    //     if (pedido != null)
+    //     {
+    //         return pedido;
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("\nEl pedido no existe:");
+    //         return null;
+    //     }
+    // }
+
     public static void ActualizarEstado(Pedido pedido)
     {
         Console.WriteLine("\n1. Pendiente ");
         Console.WriteLine("\n2. En Proceso ");
         Console.WriteLine("\n3. Completado ");
         Console.WriteLine("\n4. Cancelado ");
-        Console.WriteLine("\nINGRESE:");
+        Console.WriteLine("\nSeleccione el estado:");
         string opcionEstado = Console.ReadLine();
         switch (opcionEstado)
         {
@@ -57,7 +77,7 @@ public class Pedido
                 break;
         }
     }
-    public void MostrarPedido(Pedido pedido)
+    public static void MostrarPedido(Pedido pedido)
     {
         Console.WriteLine("\nPEDIDO Nro : " + pedido.Nro);
         Console.WriteLine("Observacion: " + pedido.Obs);
@@ -65,29 +85,49 @@ public class Pedido
         Console.WriteLine("\nCLIENTE");
         Cliente.MostrarCliente(pedido.Cliente);
     }
+
+    public static void MostrarListaPedidos(List<Pedido> lista)
+    {
+        foreach (var p in lista)
+        {
+            Pedido.MostrarPedido(p);
+        }
+    }
+
     public static Pedido AltaPedido()
     {
         Pedido nuevoPedido = new();
+        int nroPedido;
 
-        Console.WriteLine("Ingrese el número del pedido:");
-        nuevoPedido.Nro = int.Parse(Console.ReadLine());
-        Console.WriteLine("Ingrese las observaciones del pedido:");
+        Console.WriteLine("\nIngrese el numero del pedido:");
+        // Controlar hasta que ingrese un numero
+        while (!int.TryParse(Console.ReadLine(), out nroPedido))
+        {
+            Console.WriteLine("Por favor, ingrese un numero.");
+        }
+        nuevoPedido.Nro = nroPedido;
+
+        Console.WriteLine("\nIngrese las observaciones del pedido:");
         nuevoPedido.Obs = Console.ReadLine();
-        nuevoPedido.Estado = EstadoP.Pendiente;
 
         nuevoPedido.Cliente = Cliente.CrearCliente();
 
         return nuevoPedido;
     }
 
-    public static void AsignarPedido(Cadete cadete, Pedido pedido)
-    {
-        cadete.AgregarPedido(pedido);
-    }
-    public static void ReasignarPedido(Cadete cadete, Cadete cadeteNuevo, Pedido pedido)
-    {
-        cadete.EliminarPedido(pedido);
-        cadeteNuevo.AgregarPedido(pedido);
-    }
+    // public static void AsignarPedido(Cadete cadete, int nroPedido)
+    // {
+    //     var pedido = Cadeteria.listadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+    //     if (pedido != null)
+    //     {
+    //         cadete.AgregarPedido(pedido);
+    //         Console.WriteLine("\nPedido asignado a: " + cadete.Nombre);
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("\nEl pedido esta vacio");
+    //     }
+    // }
+
 
 }

@@ -26,9 +26,9 @@ public class Cadete
         listadoPedidos.Remove(pedido);
     }
 
-    List<Pedido> ObtenerPedidos()
+    public static List<Pedido> ObtenerPedidos(Cadete cadete)
     {
-        return listadoPedidos;
+        return cadete.ListadoPedidos;
     }
     public float CalcularJornal()
     {
@@ -36,17 +36,18 @@ public class Cadete
         return listadoPedidos.Count * valorPorPedido;
     }
 
-    public void MostrarCadete(Cadete cadete)
+    public static void MostrarCadete(Cadete cadete)
     {
         Console.WriteLine("\nCADETE Nro : " + cadete.Id);
         Console.WriteLine("Nombre: " + cadete.Nombre);
         Console.WriteLine("Direccion: " + cadete.Direccion);
         Console.WriteLine("Telefono: " + cadete.Telefono);
         Console.WriteLine("\nPEDIDOS");
-        foreach (var pedi2 in ObtenerPedidos())
+        foreach (var pedi2 in ObtenerPedidos(cadete))
         {
-            pedi2.MostrarPedido(pedi2);
+            Pedido.MostrarPedido(pedi2);
         }
     }
+
 
 }
