@@ -4,6 +4,8 @@
     {
         Cadeteria Cadeteria1 = new();
 
+        List<Pedido> ListaPedidos = new();
+
         Pedido pedido1 = new();
         Cadete cadete1 = new(), cadete2 = new();
         string opcion;
@@ -13,9 +15,12 @@
         var ListaCadeterias = new List<Cadeteria>();
         var ListaCadetes = new List<Cadete>();
 
-
         ListaCadeterias = Cadeteria.LeerCadeterias(archivoCadeterias);
         ListaCadetes = Cadeteria.LeerCadetes(archivoCadetes);
+
+
+        // Asignar pedidos a ListaPedidos
+        ListaPedidos.Add(pedido1);
 
         do
         {
@@ -30,6 +35,7 @@
                     Pedido.MostrarPedido(pedido1);
                     break;
                 case "2":
+                    cadete1.AgregarPedido(pedido1);
                     Console.WriteLine("\nIngrese el numero del pedido a asignar:");
                     while (!int.TryParse(Console.ReadLine(), out nroPedido))
                     {
@@ -40,7 +46,12 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Cadeteria.AsignarPedido(Cadeteria1, nroCadete, nroPedido);
+
+                    cadete1 = Cadeteria.ObtenerCadetePorID(Cadeteria1, nroCadete);
+                    pedido1 = ListaPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+                    cadete1.AgregarPedido(pedido1);
+                    // Cadeteria1.ListadoCadetes.FirstOrDefault(c => c.Id == nroCadete).AgregarPedido();
+                    // Cadeteria.AsignarPedido(Cadeteria1, nroCadete, nroPedido);
                     break;
                 case "3":
                     Pedido.ActualizarEstado(pedido1);
@@ -61,7 +72,15 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Cadeteria.ReasignarPedido(Cadeteria1, nroCadete, nroCadete2, nroPedido);
+                    cadete1 = Cadeteria.ObtenerCadetePorID(Cadeteria1, nroCadete);
+
+                    if (Cadete.ObtenerPedidoPorID(cadete1.ListadoPedidos, nroPedido) != null)
+                    {
+                        cadete2 = Cadeteria.ObtenerCadetePorID(Cadeteria1, nroCadete2);
+                        pedido1 = cadete1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+                        cadete2.AgregarPedido(pedido1);
+                        cadete1.EliminarPedido(pedido1);
+                    }
                     break;
                 case "5":
                     Pedido.MostrarListaPedidos(Cadeteria1.ListadoPedidos);

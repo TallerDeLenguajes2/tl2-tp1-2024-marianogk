@@ -30,6 +30,13 @@ public class Cadete
     {
         return cadete.ListadoPedidos;
     }
+
+
+
+    public static Pedido ObtenerPedidoPorID(List<Pedido> pedido,int id )
+    {
+        return pedido.FirstOrDefault(p => p.Nro == id);
+    }
     public float CalcularJornal()
     {
         float valorPorPedido = 500;
@@ -42,10 +49,13 @@ public class Cadete
         Console.WriteLine("Nombre: " + cadete.Nombre);
         Console.WriteLine("Direccion: " + cadete.Direccion);
         Console.WriteLine("Telefono: " + cadete.Telefono);
-        Console.WriteLine("\nPEDIDOS");
-        foreach (var pedi2 in ObtenerPedidos(cadete))
+        if (cadete.ListadoPedidos != null)
         {
-            Pedido.MostrarPedido(pedi2);
+            Console.WriteLine("\nPEDIDOS");
+            foreach (var pedi2 in ObtenerPedidos(cadete))
+            {
+                Pedido.MostrarPedido(pedi2);
+            }
         }
     }
 

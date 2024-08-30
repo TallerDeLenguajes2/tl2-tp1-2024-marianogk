@@ -16,41 +16,41 @@ public class Cadeteria
         ListadoPedidos = new List<Pedido>();
     }
 
-    public static void AsignarPedido(Cadeteria cadeteria, int idCadete, int nroPedido)
-    {
-        var pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+    // public static void AsignarPedido(Cadeteria cadeteria, int idCadete, int nroPedido)
+    // {
+    //     var pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
 
-        var cadete = cadeteria.ObtenerCadetePorID(idCadete);
+    //     var cadete = cadeteria.ObtenerCadetePorID(idCadete);
 
-        if (pedido != null && cadete != null)
-        {
-            cadete.AgregarPedido(pedido);
-            Console.WriteLine("\nPedido asignado a: " + cadete.Nombre);
-        }
-        else
-        {
-            Console.WriteLine("\nEl pedido no existe");
-        }
-    }
+    //     if (pedido != null && cadete != null)
+    //     {
+    //         cadete.AgregarPedido(pedido);
+    //         Console.WriteLine("\nPedido asignado a: " + cadete.Nombre);
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("\nEl pedido no existe");
+    //     }
+    // }
 
-    public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int nroPedido)
-    {
-        var pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-        var cadete = cadeteria.ObtenerCadetePorID(idCadete);
+    // public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int nroPedido)
+    // {
+    //     var pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+    //     var cadete = cadeteria.ListadoCadetes.ObtenerCadetePorID(cadeteria, idCadete);
 
-        var cadeteNuevo = cadeteria.ObtenerCadetePorID(idCadeteNuevo);
+    //     var cadeteNuevo = cadeteria.ListadoCadetes.ObtenerCadetePorID(cadeteria, idCadeteNuevo);
 
-        if (pedido != null && cadete != null && cadeteNuevo != null)
-        {
-            cadete.EliminarPedido(pedido);
-            cadeteNuevo.AgregarPedido(pedido);
-            Console.WriteLine("\nPedido reasignado a: " + cadeteNuevo.Nombre);
-        }
-        else
-        {
-            Console.WriteLine("\nEl pedido no existe");
-        }
-    }
+    //     if (pedido != null && cadete != null && cadeteNuevo != null)
+    //     {
+    //         cadete.EliminarPedido(pedido);
+    //         cadeteNuevo.AgregarPedido(pedido);
+    //         Console.WriteLine("\nPedido reasignado a: " + cadeteNuevo.Nombre);
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("\nEl pedido no existe");
+    //     }
+    // }
 
     public static List<Cadeteria> LeerCadeterias(string archivo)
     {
@@ -135,18 +135,15 @@ public class Cadeteria
     {
         listadoCadetes.Remove(cadete);
     }
-    public Cadete ObtenerCadetePorID(int id)
-    {
-        return listadoCadetes.FirstOrDefault(c => c.Id == id);
-    }
+
     public static List<Cadete> ObtenerListadoCadetes(Cadeteria cadeteria)
     {
         return cadeteria.listadoCadetes;
     }
 
-    public static List<Pedido> ObtenerListadoPedidos(Cadeteria cadeteria)
+    public static Cadete ObtenerCadetePorID(Cadeteria cadeteria, int id)
     {
-        return cadeteria.ListadoPedidos;
+        return cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == id);
     }
 
     public static void MostrarListaCadetes(List<Cadete> lista)
