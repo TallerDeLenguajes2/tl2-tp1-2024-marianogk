@@ -33,26 +33,6 @@ public class Pedido
         return cliente;
     }
 
-    public static void AgregarPedidoALista(Pedido pedido, List<Pedido> lista)
-    {
-        lista.Add(pedido);
-    }
-
-    // public static Pedido BuscarPedidoNro(int nro, List<Pedido> lista)
-    // {
-    //     var pedido = lista.FirstOrDefault(p => p.Nro == nro);
-
-    //     if (pedido != null)
-    //     {
-    //         return pedido;
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("\nEl pedido no existe:");
-    //         return null;
-    //     }
-    // }
-
     public static void ActualizarEstado(Pedido pedido)
     {
         if (pedido != null)
@@ -93,48 +73,12 @@ public class Pedido
         Cliente.MostrarCliente(pedido.Cliente);
     }
 
-    // public static void MostrarListaPedidos(List<Pedido> lista)
-    // {
-    //     foreach (var p in lista)
-    //     {
-    //         Pedido.MostrarPedido(p);
-    //     }
-    // }
-
-    // public static Pedido AltaPedido()
-    // {
-    //     Pedido nuevoPedido = new();
-    //     int nroPedido;
-
-    //     Console.WriteLine("\nIngrese el numero del pedido:");
-    //     // Controlar hasta que ingrese un numero
-    //     while (!int.TryParse(Console.ReadLine(), out nroPedido))
-    //     {
-    //         Console.WriteLine("Por favor, ingrese un numero.");
-    //     }
-    //     nuevoPedido.Nro = nroPedido;
-
-    //     Console.WriteLine("\nIngrese las observaciones del pedido:");
-    //     nuevoPedido.Obs = Console.ReadLine();
-
-    //     nuevoPedido.Cliente = Cliente.CrearCliente();
-
-    //     return nuevoPedido;
-    // }
-
-    // public static void AsignarPedido(Cadete cadete, int nroPedido)
-    // {
-    //     var pedido = Cadeteria.listadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-    //     if (pedido != null)
-    //     {
-    //         cadete.AgregarPedido(pedido);
-    //         Console.WriteLine("\nPedido asignado a: " + cadete.Nombre);
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("\nEl pedido esta vacio");
-    //     }
-    // }
-
+    public static void MostrarListaPedidos(List<Pedido> lista)
+    {
+        foreach (var p in lista)
+        {
+            Pedido.MostrarPedido(p);
+        }
+    }
 
 }

@@ -37,59 +37,67 @@ public class Cadeteria
 
     public static void AsignarPedido(Cadeteria cadeteria, int idCadete, Pedido pedido)
     {
-        List<Cadete> listadoCadetes = cadeteria.ListadoCadetes;
-        Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
-
-        if (cadete == null)
+        try
         {
-            throw new Exception("Cadete no encontrado.");
-        }
+            List<Cadete> listadoCadetes = cadeteria.ListadoCadetes;
+            Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
 
-        // Verificar que el pedido esté correctamente creado (opcional)
-        if (pedido == null)
+            if (cadete == null)
+            {
+                throw new Exception("Cadete no encontrado.");
+            }
+
+            // Verificar que el pedido esté correctamente creado (opcional)
+            if (pedido == null)
+            {
+                throw new Exception("El pedido debe ser creado primero.");
+            }
+
+            // Asignar el pedido al cadete
+            cadete.AgregarPedido(pedido);
+            Console.WriteLine("\nPedido asignado al cadete: " + cadete.Id);
+        }
+        catch (Exception ex)
         {
-            throw new Exception("El pedido debe ser creado primero.");
+            Console.WriteLine($"\nError al reasignar el pedido: {ex.Message}");
         }
-
-        // Asignar el pedido al cadete
-        cadete.AgregarPedido(pedido);
-        Console.WriteLine("\nPedido asignado al cadete: " + cadete.Id);
     }
 
-    // public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int nroPedido)
-    // {
-    //     var pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-    //     var cadete = cadeteria.ListadoCadetes.ObtenerCadetePorID(cadeteria, idCadete);
+    public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int idPedido)
+    {
+        try
+        {
+            List<Cadete> listadoCadetes = cadeteria.ListadoCadetes;
+            Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+            Cadete cadeteNuevo = listadoCadetes.FirstOrDefault(c => c.Id == idCadeteNuevo);
+            Pedido pedido = cadete.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
 
-    //     var cadeteNuevo = cadeteria.ListadoCadetes.ObtenerCadetePorID(cadeteria, idCadeteNuevo);
+            if (cadete == null || cadeteNuevo == null)
+            {
+                throw new Exception("Cadete no encontrado.");
+            }
 
-    //     if (pedido != null && cadete != null && cadeteNuevo != null)
-    //     {
-    //         cadete.EliminarPedido(pedido);
-    //         cadeteNuevo.AgregarPedido(pedido);
-    //         Console.WriteLine("\nPedido reasignado a: " + cadeteNuevo.Nombre);
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("\nEl pedido no existe");
-    //     }
-    // }
+            // Verificar que el pedido esté correctamente creado (opcional)
+            if (pedido == null)
+            {
+                throw new Exception("El pedido no se encuentra.");
+            }
 
+            // Asignar el pedido al NUEVO cadete
+            cadeteNuevo.AgregarPedido(pedido);
+            cadete.EliminarPedido(pedido);  // eliminar pedido del cadete anterior
+            Console.WriteLine("\nPedido reasignado al cadete: " + cadeteNuevo.Id);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"\nError al reasignar el pedido: {ex.Message}");
+        }
+    }
 
 
     public void EliminarCadete(Cadete cadete)
     {
         listadoCadetes.Remove(cadete);
-    }
-
-    public static List<Cadete> ObtenerListadoCadetes(Cadeteria cadeteria)
-    {
-        return cadeteria.listadoCadetes;
-    }
-
-    public static Cadete ObtenerCadetePorID(Cadeteria cadeteria, int id)
-    {
-        return cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == id);
     }
 
     public static void MostrarListaCadetes(List<Cadete> lista)

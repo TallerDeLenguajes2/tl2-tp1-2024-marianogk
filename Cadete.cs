@@ -31,12 +31,6 @@ public class Cadete
         return cadete.ListadoPedidos;
     }
 
-
-
-    public static Pedido ObtenerPedidoPorID(List<Pedido> pedido,int id )
-    {
-        return pedido.FirstOrDefault(p => p.Nro == id);
-    }
     public float CalcularJornal()
     {
         float valorPorPedido = 500;

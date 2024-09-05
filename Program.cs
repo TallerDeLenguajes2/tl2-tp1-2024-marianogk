@@ -22,13 +22,11 @@
         cadeteria1 = ListaCadeterias.FirstOrDefault();
         if (cadeteria1 == null)
         {
-            Console.WriteLine("No se encontró ninguna cadetería.");
+            Console.WriteLine("No se encontro ninguna cadeteria.");
             return;
         }
-        // Asignar cadetes a la cadetería (solo para ilustración)
+        // Asignar cadetes a la cadetería 
         cadeteria1.ListadoCadetes.AddRange(ListaCadetes);
-
-
 
         do
         {
@@ -40,8 +38,8 @@
                 case "1":
                     pedido1 = Cadeteria.AltaPedido();
                     Pedido.MostrarPedido(pedido1);
-                    // Agregar pedidos a ListaPedidos
-                    ListaPedidos.Add(pedido1);
+
+                    ListaPedidos.Add(pedido1);// Agregar pedidos a ListaPedidos
                     break;
                 case "2":
                     Console.WriteLine("\nIngrese el numero del pedido a asignar:");
@@ -68,36 +66,25 @@
                     Pedido.MostrarPedido(pedidoBuscado);
                     break;
                 case "4":
-                    // Console.WriteLine("\nIngrese el numero del pedido a reasignar:");
-                    // while (!int.TryParse(Console.ReadLine(), out nroPedido))
-                    // {
-                    //     Console.WriteLine("Por favor, ingrese un numero.");
-                    // }
-                    // Console.WriteLine("\nIngrese el id del cadete asignado:");
-                    // while (!int.TryParse(Console.ReadLine(), out nroCadete))
-                    // {
-                    //     Console.WriteLine("Por favor, ingrese un numero.");
-                    // }
-                    // Console.WriteLine("\nIngrese el id del NUEVO cadete reasignado:");
-                    // while (!int.TryParse(Console.ReadLine(), out nroCadete2))
-                    // {
-                    //     Console.WriteLine("Por favor, ingrese un numero.");
-                    // }
-                    // cadete1 = Cadeteria.ObtenerCadetePorID(Cadeteria1, nroCadete);
-
-                    // if (Cadete.ObtenerPedidoPorID(cadete1.ListadoPedidos, nroPedido) != null)
-                    // {
-                    // cadete2 = Cadeteria.ObtenerCadetePorID(Cadeteria1, nroCadete2);
-                    // pedido1 = cadete1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-                    cadete1 = Cadeteria.ObtenerCadetePorID(cadeteria1, 1);
-                    cadete2 = Cadeteria.ObtenerCadetePorID(cadeteria1, 2);
-                    pedido1 = Cadete.ObtenerPedidoPorID(cadete1.ListadoPedidos, 1);
-                    cadete2.AgregarPedido(pedido1);
-                    cadete1.EliminarPedido(pedido1);
-                    //}
+                    Console.WriteLine("\nIngrese el numero del pedido a reasignar:");
+                    while (!int.TryParse(Console.ReadLine(), out nroPedido))
+                    {
+                        Console.WriteLine("Por favor, ingrese un numero.");
+                    }
+                    Console.WriteLine("\nIngrese el id del cadete asignado:");
+                    while (!int.TryParse(Console.ReadLine(), out nroCadete))
+                    {
+                        Console.WriteLine("Por favor, ingrese un numero.");
+                    }
+                    Console.WriteLine("\nIngrese el id del NUEVO cadete reasignado:");
+                    while (!int.TryParse(Console.ReadLine(), out nroCadete2))
+                    {
+                        Console.WriteLine("Por favor, ingrese un numero.");
+                    }
+                    Cadeteria.ReasignarPedido(cadeteria1,nroCadete,nroCadete2,nroPedido);
                     break;
                 case "5":
-                    // Pedido.MostrarListaPedidos();
+                    Pedido.MostrarListaPedidos(ListaPedidos);
                     break;
                 case "6":
                     Cadeteria.MostrarListaCadetes(ListaCadetes);
