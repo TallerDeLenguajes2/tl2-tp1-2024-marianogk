@@ -81,7 +81,7 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Cadeteria.ReasignarPedido(cadeteria1,nroCadete,nroCadete2,nroPedido);
+                    Cadeteria.ReasignarPedido(cadeteria1, nroCadete, nroCadete2, nroPedido);
                     break;
                 case "5":
                     Pedido.MostrarListaPedidos(ListaPedidos);
@@ -90,14 +90,17 @@
                     Cadeteria.MostrarListaCadetes(ListaCadetes);
                     break;
                 case "7":
-                    opcion = "7";
+                    Cadeteria.MostrarInforme(cadeteria1);
+                    break;
+                case "8":
+                    opcion = "8";
                     break;
                 default:
                     Console.WriteLine("\nOpcion no valida.\n");
                     break;
             }
 
-        } while (opcion != "7");
+        } while (opcion != "8");
     }
 
 
@@ -109,7 +112,8 @@
         Console.WriteLine("\n4. Reasignar Pedido ");
         Console.WriteLine("\n5. Mostrar pedidos ");
         Console.WriteLine("\n6. Mostrar cadetes ");
-        Console.WriteLine("\n7. Salir ");
+        Console.WriteLine("\n7. Mostrar informe ");
+        Console.WriteLine("\n8. Salir ");
         Console.WriteLine("\nIngrese:");
     }
 

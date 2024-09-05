@@ -108,4 +108,36 @@ public class Cadeteria
         }
     }
 
+    public static void MostrarInforme(Cadeteria cadeteria)
+    {
+        Console.WriteLine("\nInforme de Pedidos al Finalizar la Jornada:");
+
+        // Cálculo de datos
+        float montoTotal = 0;
+        int totalEnviados = 0;
+
+        foreach (var cadete in cadeteria.listadoCadetes)
+        {
+            int enviosCadete = cadete.CantidadPedidosEntregados();
+            float jornalCadete = cadete.CalcularJornal();
+
+            montoTotal += jornalCadete;
+            totalEnviados += enviosCadete;
+
+            // Mostrar datos por cadete
+            Console.WriteLine($"Cadete ID: {cadete.Id}");
+            Console.WriteLine($"Nombre: {cadete.Nombre}");
+            Console.WriteLine($"Cantidad de Envios: {enviosCadete}");
+            Console.WriteLine($"Monto Ganado: ${jornalCadete:F2}");
+            Console.WriteLine("------------------------------------------------");
+        }
+
+        float promedioEnviados = cadeteria.listadoCadetes.Count > 0 ? (float)totalEnviados / cadeteria.listadoCadetes.Count : 0;
+
+        // Mostrar datos totales
+        Console.WriteLine($"Total de Envíos: {totalEnviados}");
+        Console.WriteLine($"Monto Total Ganado: ${montoTotal:F2}");
+        Console.WriteLine($"Promedio de Envíos por Cadete: {promedioEnviados:F2}");
+
+    }
 }

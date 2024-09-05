@@ -31,6 +31,10 @@ public class Cadete
         return cadete.ListadoPedidos;
     }
 
+    public int CantidadPedidosEntregados()
+    {
+        return listadoPedidos.Count;
+    }
     public float CalcularJornal()
     {
         float valorPorPedido = 500;

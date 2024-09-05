@@ -59,7 +59,8 @@ public class Pedido
                     break;
             }
             Console.WriteLine("\nEstado actualizado!");
-        } else
+        }
+        else
         {
             Console.WriteLine("\nNo existe el pedido");
         }
@@ -77,8 +78,9 @@ public class Pedido
     {
         foreach (var p in lista)
         {
-            Pedido.MostrarPedido(p);
+            MostrarPedido(p);
         }
     }
+
 
 }
