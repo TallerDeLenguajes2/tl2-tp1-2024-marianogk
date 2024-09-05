@@ -55,26 +55,33 @@ public class Pedido
 
     public static void ActualizarEstado(Pedido pedido)
     {
-        Console.WriteLine("\n1. Pendiente ");
-        Console.WriteLine("\n2. En Proceso ");
-        Console.WriteLine("\n3. Completado ");
-        Console.WriteLine("\n4. Cancelado ");
-        Console.WriteLine("\nSeleccione el estado:");
-        string opcionEstado = Console.ReadLine();
-        switch (opcionEstado)
+        if (pedido != null)
         {
-            case "2":
-                pedido.Estado = EstadoP.EnProceso;
-                break;
-            case "3":
-                pedido.Estado = EstadoP.Completado;
-                break;
-            case "4":
-                pedido.Estado = EstadoP.Cancelado;
-                break;
-            default:
-                pedido.Estado = EstadoP.Pendiente;
-                break;
+            Console.WriteLine("\n1. Pendiente ");
+            Console.WriteLine("\n2. En Proceso ");
+            Console.WriteLine("\n3. Completado ");
+            Console.WriteLine("\n4. Cancelado ");
+            Console.WriteLine("\nSeleccione el estado:");
+            string opcionEstado = Console.ReadLine();
+            switch (opcionEstado)
+            {
+                case "2":
+                    pedido.Estado = EstadoP.EnProceso;
+                    break;
+                case "3":
+                    pedido.Estado = EstadoP.Completado;
+                    break;
+                case "4":
+                    pedido.Estado = EstadoP.Cancelado;
+                    break;
+                default:
+                    pedido.Estado = EstadoP.Pendiente;
+                    break;
+            }
+            Console.WriteLine("\nEstado actualizado!");
+        } else
+        {
+            Console.WriteLine("\nNo existe el pedido");
         }
     }
     public static void MostrarPedido(Pedido pedido)
@@ -86,34 +93,34 @@ public class Pedido
         Cliente.MostrarCliente(pedido.Cliente);
     }
 
-    public static void MostrarListaPedidos(List<Pedido> lista)
-    {
-        foreach (var p in lista)
-        {
-            Pedido.MostrarPedido(p);
-        }
-    }
+    // public static void MostrarListaPedidos(List<Pedido> lista)
+    // {
+    //     foreach (var p in lista)
+    //     {
+    //         Pedido.MostrarPedido(p);
+    //     }
+    // }
 
-    public static Pedido AltaPedido()
-    {
-        Pedido nuevoPedido = new();
-        int nroPedido;
+    // public static Pedido AltaPedido()
+    // {
+    //     Pedido nuevoPedido = new();
+    //     int nroPedido;
 
-        Console.WriteLine("\nIngrese el numero del pedido:");
-        // Controlar hasta que ingrese un numero
-        while (!int.TryParse(Console.ReadLine(), out nroPedido))
-        {
-            Console.WriteLine("Por favor, ingrese un numero.");
-        }
-        nuevoPedido.Nro = nroPedido;
+    //     Console.WriteLine("\nIngrese el numero del pedido:");
+    //     // Controlar hasta que ingrese un numero
+    //     while (!int.TryParse(Console.ReadLine(), out nroPedido))
+    //     {
+    //         Console.WriteLine("Por favor, ingrese un numero.");
+    //     }
+    //     nuevoPedido.Nro = nroPedido;
 
-        Console.WriteLine("\nIngrese las observaciones del pedido:");
-        nuevoPedido.Obs = Console.ReadLine();
+    //     Console.WriteLine("\nIngrese las observaciones del pedido:");
+    //     nuevoPedido.Obs = Console.ReadLine();
 
-        nuevoPedido.Cliente = Cliente.CrearCliente();
+    //     nuevoPedido.Cliente = Cliente.CrearCliente();
 
-        return nuevoPedido;
-    }
+    //     return nuevoPedido;
+    // }
 
     // public static void AsignarPedido(Cadete cadete, int nroPedido)
     // {

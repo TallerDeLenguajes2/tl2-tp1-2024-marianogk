@@ -49,7 +49,7 @@ public class Cadete
         Console.WriteLine("Nombre: " + cadete.Nombre);
         Console.WriteLine("Direccion: " + cadete.Direccion);
         Console.WriteLine("Telefono: " + cadete.Telefono);
-        if (cadete.ListadoPedidos != null)
+        if (cadete.ListadoPedidos != null && cadete.ListadoPedidos.Count != 0)
         {
             Console.WriteLine("\nPEDIDOS");
             foreach (var pedi2 in ObtenerPedidos(cadete))

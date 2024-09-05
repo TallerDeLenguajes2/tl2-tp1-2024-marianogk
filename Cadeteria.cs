@@ -3,35 +3,58 @@ public class Cadeteria
     private string nombre;
     private int telefono;
     private List<Cadete> listadoCadetes;
-    private List<Pedido> listadoPedidos; // Agregado
 
     public string Nombre { get => nombre; set => nombre = value; }
     public int Telefono { get => telefono; set => telefono = value; }
     public List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
-    public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
     public Cadeteria()
     {
         listadoCadetes = new List<Cadete>();
-        ListadoPedidos = new List<Pedido>();
     }
 
-    // public static void AsignarPedido(Cadeteria cadeteria, int idCadete, int nroPedido)
-    // {
-    //     var pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+    public static Pedido AltaPedido()
+    {
+        Pedido nuevoPedido = new();
+        int nroPedido;
 
-    //     var cadete = cadeteria.ObtenerCadetePorID(idCadete);
+        Console.WriteLine("\nIngrese el numero del pedido:");
+        // Controlar hasta que ingrese un numero
+        while (!int.TryParse(Console.ReadLine(), out nroPedido))
+        {
+            Console.WriteLine("Por favor, ingrese un numero.");
+        }
+        nuevoPedido.Nro = nroPedido;
 
-    //     if (pedido != null && cadete != null)
-    //     {
-    //         cadete.AgregarPedido(pedido);
-    //         Console.WriteLine("\nPedido asignado a: " + cadete.Nombre);
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("\nEl pedido no existe");
-    //     }
-    // }
+        Console.WriteLine("\nIngrese las observaciones del pedido:");
+        nuevoPedido.Obs = Console.ReadLine();
+
+        nuevoPedido.Cliente = Cliente.CrearCliente();
+
+        return nuevoPedido;
+    }
+
+
+    public static void AsignarPedido(Cadeteria cadeteria, int idCadete, Pedido pedido)
+    {
+        List<Cadete> listadoCadetes = cadeteria.ListadoCadetes;
+        Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+
+        if (cadete == null)
+        {
+            throw new Exception("Cadete no encontrado.");
+        }
+
+        // Verificar que el pedido esté correctamente creado (opcional)
+        if (pedido == null)
+        {
+            throw new Exception("El pedido debe ser creado primero.");
+        }
+
+        // Asignar el pedido al cadete
+        cadete.AgregarPedido(pedido);
+        Console.WriteLine("\nPedido asignado al cadete: " + cadete.Id);
+    }
 
     // public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int nroPedido)
     // {
@@ -52,84 +75,7 @@ public class Cadeteria
     //     }
     // }
 
-    public static List<Cadeteria> LeerCadeterias(string archivo)
-    {
-        var cadeterias = new List<Cadeteria>();
-        using var lector = new StreamReader(archivo);
-        string linea;
-        bool esPrimeraLinea = true;
 
-        while ((linea = lector.ReadLine()) != null)
-        {
-            if (esPrimeraLinea)
-            {
-                esPrimeraLinea = false;
-                continue; // Omitir la primera linea
-            }
-
-            var valores = linea.Split(',');
-            if (valores.Length < 2)
-            {
-                Console.WriteLine("Formato de línea invalido: " + linea);
-                continue;
-            }
-
-            try
-            {
-                var cadeteria = new Cadeteria
-                {
-                    Nombre = valores[0],
-                    Telefono = int.Parse(valores[1])
-                };
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine($"Error en el formato de los datos: {ex.Message}");
-            }
-        }
-        return cadeterias;
-    }
-    public static List<Cadete> LeerCadetes(string archivo)
-    {
-        var cadetes = new List<Cadete>();
-        using var lector = new StreamReader(archivo);
-        string linea;
-        bool esPrimeraLinea = true;
-
-        while ((linea = lector.ReadLine()) != null)
-        {
-            if (esPrimeraLinea)
-            {
-                esPrimeraLinea = false;
-                continue; // Omitir la primera linea
-            }
-
-            var valores = linea.Split(',');
-            if (valores.Length < 4)
-            {
-                Console.WriteLine("Formato de línea invalido: " + linea);
-                continue;
-            }
-
-            try
-            {
-                var cadete = new Cadete
-                {
-                    Id = int.Parse(valores[0]),
-                    Nombre = valores[1],
-                    Direccion = valores[2],
-                    Telefono = int.Parse(valores[3])
-                };
-
-                cadetes.Add(cadete);
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine($"Error en el formato de los datos: {ex.Message}");
-            }
-        }
-        return cadetes;
-    }
 
     public void EliminarCadete(Cadete cadete)
     {
