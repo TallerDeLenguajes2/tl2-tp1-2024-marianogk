@@ -4,42 +4,19 @@ public class Cadete
     private string nombre;
     private string direccion;
     private int telefono;
-    private List<Pedido> listadoPedidos;
 
     public int Id { get => id; set => id = value; }
     public string Nombre { get => nombre; set => nombre = value; }
     public string Direccion { get => direccion; set => direccion = value; }
     public int Telefono { get => telefono; set => telefono = value; }
-    public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
-    public Cadete()
-    {
-        ListadoPedidos = new List<Pedido>();
-    }
-    public void AgregarPedido(Pedido pedido)
-    {
-        listadoPedidos.Add(pedido);
-    }
 
-    public void EliminarPedido(Pedido pedido)
-    {
-        listadoPedidos.Remove(pedido);
-    }
 
-    public static List<Pedido> ObtenerPedidos(Cadete cadete)
-    {
-        return cadete.ListadoPedidos;
-    }
+    // public static List<Pedido> ObtenerPedidos(Cadete cadete)
+    // {
+    //     return cadete.ListadoPedidos;
+    // }
 
-    public int CantidadPedidosEntregados()
-    {
-        return listadoPedidos.Count;
-    }
-    public float CalcularJornal()
-    {
-        float valorPorPedido = 500;
-        return listadoPedidos.Count * valorPorPedido;
-    }
 
     public static void MostrarCadete(Cadete cadete)
     {
@@ -47,14 +24,6 @@ public class Cadete
         Console.WriteLine("Nombre: " + cadete.Nombre);
         Console.WriteLine("Direccion: " + cadete.Direccion);
         Console.WriteLine("Telefono: " + cadete.Telefono);
-        if (cadete.ListadoPedidos != null && cadete.ListadoPedidos.Count != 0)
-        {
-            Console.WriteLine("\nPEDIDOS");
-            foreach (var pedi2 in ObtenerPedidos(cadete))
-            {
-                Pedido.MostrarPedido(pedi2);
-            }
-        }
     }
 
 

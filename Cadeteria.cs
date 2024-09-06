@@ -3,14 +3,48 @@ public class Cadeteria
     private string nombre;
     private int telefono;
     private List<Cadete> listadoCadetes;
+    private List<Pedido> listadoPedidos;
 
     public string Nombre { get => nombre; set => nombre = value; }
     public int Telefono { get => telefono; set => telefono = value; }
     public List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
+    public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
     public Cadeteria()
     {
         listadoCadetes = new List<Cadete>();
+        listadoPedidos = new List<Pedido>();
+    }
+
+    public void AgregarPedido(Pedido pedido)
+    {
+        listadoPedidos.Add(pedido);
+    }
+
+    public void EliminarPedido(Pedido pedido)
+    {
+        listadoPedidos.Remove(pedido);
+    }
+
+    public static int CantidadPedidosEntregados(int idCadete)
+    {
+        Cadeteria cadeteria = new();
+        int envios = 0;
+        foreach (var pedido in cadeteria.ListadoPedidos)
+        {
+            if (pedido.Cadete.Id == idCadete)
+            {
+                envios += 1;
+            }
+        }
+        return envios;
+    }
+
+    public static float JornalACobrar(int idCadete)
+    {
+        float valorPorPedido = 500;
+
+        return CantidadPedidosEntregados(idCadete) * valorPorPedido;
     }
 
     public static Pedido AltaPedido()
@@ -35,12 +69,15 @@ public class Cadeteria
     }
 
 
-    public static void AsignarPedido(Cadeteria cadeteria, int idCadete, Pedido pedido)
+    public static void AsignarCadeteAPedido(int idCadete, int idPedido)
     {
         try
         {
-            List<Cadete> listadoCadetes = cadeteria.ListadoCadetes;
-            Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+            Cadeteria cadeteria = new();
+            Cadete cadete = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+            Pedido pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+
+            pedido.Cadete = cadete;
 
             if (cadete == null)
             {
@@ -53,24 +90,22 @@ public class Cadeteria
                 throw new Exception("El pedido debe ser creado primero.");
             }
 
-            // Asignar el pedido al cadete
-            cadete.AgregarPedido(pedido);
             Console.WriteLine("\nPedido asignado al cadete: " + cadete.Id);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"\nError al reasignar el pedido: {ex.Message}");
+            Console.WriteLine($"\nError al asignar el pedido: {ex.Message}");
         }
     }
 
-    public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int idPedido)
+    public static void ReasignarPedido(int idCadete, int idCadeteNuevo, int idPedido)
     {
         try
         {
-            List<Cadete> listadoCadetes = cadeteria.ListadoCadetes;
-            Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
-            Cadete cadeteNuevo = listadoCadetes.FirstOrDefault(c => c.Id == idCadeteNuevo);
-            Pedido pedido = cadete.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+            Cadeteria cadeteria = new();
+            Cadete cadete = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+            Cadete cadeteNuevo = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadeteNuevo);
+            Pedido pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
 
             if (cadete == null || cadeteNuevo == null)
             {
@@ -84,8 +119,8 @@ public class Cadeteria
             }
 
             // Asignar el pedido al NUEVO cadete
-            cadeteNuevo.AgregarPedido(pedido);
-            cadete.EliminarPedido(pedido);  // eliminar pedido del cadete anterior
+            pedido.Cadete = null;
+            pedido.Cadete = cadeteNuevo;
             Console.WriteLine("\nPedido reasignado al cadete: " + cadeteNuevo.Id);
         }
         catch (Exception ex)
@@ -118,8 +153,8 @@ public class Cadeteria
 
         foreach (var cadete in cadeteria.listadoCadetes)
         {
-            int enviosCadete = cadete.CantidadPedidosEntregados();
-            float jornalCadete = cadete.CalcularJornal();
+            int enviosCadete = CantidadPedidosEntregados(cadete.Id);
+            float jornalCadete = Cadeteria.JornalACobrar(cadete.Id);
 
             montoTotal += jornalCadete;
             totalEnviados += enviosCadete;

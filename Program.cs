@@ -53,7 +53,7 @@
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
                     Pedido pedidoBuscado = ListaPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-                    Cadeteria.AsignarPedido(cadeteria1, nroCadete, pedidoBuscado);
+                    Cadeteria.AsignarCadeteAPedido(nroCadete, nroPedido);
                     break;
                 case "3":
                     Console.WriteLine("\nIngrese el numero del pedido a actualizar:");
@@ -81,7 +81,7 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Cadeteria.ReasignarPedido(cadeteria1, nroCadete, nroCadete2, nroPedido);
+                    Cadeteria.ReasignarPedido(nroCadete, nroCadete2, nroPedido);
                     break;
                 case "5":
                     Pedido.MostrarListaPedidos(ListaPedidos);
