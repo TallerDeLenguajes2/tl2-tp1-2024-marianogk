@@ -4,7 +4,7 @@
     {
         Cadeteria cadeteria1 = new();
 
-        List<Pedido> ListaPedidos = new();
+        // List<Pedido> ListaPedidos = new();
 
         Pedido pedido1 = new();
         Cadete cadete1 = new(), cadete2 = new();
@@ -36,10 +36,10 @@
             switch (opcion)
             {
                 case "1":
-                    pedido1 = Cadeteria.AltaPedido();
+                    Cadeteria.AltaPedido(cadeteria1);
                     Pedido.MostrarPedido(pedido1);
 
-                    ListaPedidos.Add(pedido1);// Agregar pedidos a ListaPedidos
+                    // ListaPedidos.Add(pedido1);// Agregar pedidos a ListaPedidos
                     break;
                 case "2":
                     Console.WriteLine("\nIngrese el numero del pedido a asignar:");
@@ -52,8 +52,8 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Pedido pedidoBuscado = ListaPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-                    Cadeteria.AsignarCadeteAPedido(nroCadete, nroPedido);
+                    Pedido pedidoBuscado = cadeteria1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+                    Cadeteria.AsignarCadeteAPedido(cadeteria1,nroCadete, nroPedido);
                     break;
                 case "3":
                     Console.WriteLine("\nIngrese el numero del pedido a actualizar:");
@@ -61,7 +61,7 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    pedidoBuscado = ListaPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+                    pedidoBuscado = cadeteria1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
                     Pedido.ActualizarEstado(pedidoBuscado);
                     Pedido.MostrarPedido(pedidoBuscado);
                     break;
@@ -81,10 +81,10 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Cadeteria.ReasignarPedido(nroCadete, nroCadete2, nroPedido);
+                    Cadeteria.ReasignarPedido(cadeteria1 ,nroCadete, nroCadete2, nroPedido);
                     break;
                 case "5":
-                    Pedido.MostrarListaPedidos(ListaPedidos);
+                    Pedido.MostrarListaPedidos(cadeteria1.ListadoPedidos);
                     break;
                 case "6":
                     Cadeteria.MostrarListaCadetes(ListaCadetes);

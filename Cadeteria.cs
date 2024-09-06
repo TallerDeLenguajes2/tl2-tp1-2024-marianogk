@@ -47,7 +47,7 @@ public class Cadeteria
         return CantidadPedidosEntregados(idCadete) * valorPorPedido;
     }
 
-    public static Pedido AltaPedido()
+    public static void AltaPedido(Cadeteria cadeteria)
     {
         Pedido nuevoPedido = new();
         int nroPedido;
@@ -65,15 +65,14 @@ public class Cadeteria
 
         nuevoPedido.Cliente = Cliente.CrearCliente();
 
-        return nuevoPedido;
+        cadeteria.AgregarPedido(nuevoPedido) ;
     }
 
 
-    public static void AsignarCadeteAPedido(int idCadete, int idPedido)
+    public static void AsignarCadeteAPedido(Cadeteria cadeteria, int idCadete, int idPedido)
     {
         try
         {
-            Cadeteria cadeteria = new();
             Cadete cadete = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadete);
             Pedido pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
 
@@ -98,11 +97,10 @@ public class Cadeteria
         }
     }
 
-    public static void ReasignarPedido(int idCadete, int idCadeteNuevo, int idPedido)
+    public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int idPedido)
     {
         try
         {
-            Cadeteria cadeteria = new();
             Cadete cadete = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadete);
             Cadete cadeteNuevo = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadeteNuevo);
             Pedido pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);

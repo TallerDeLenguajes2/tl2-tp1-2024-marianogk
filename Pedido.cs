@@ -75,6 +75,8 @@ public class Pedido
         Console.WriteLine("Estado: " + pedido.Estado);
         Console.WriteLine("\nCLIENTE");
         Cliente.MostrarCliente(pedido.Cliente);
+        Console.WriteLine("\nCADETE");
+        Cadete.MostrarCadete(pedido.Cadete);
     }
 
     public static void MostrarListaPedidos(List<Pedido> lista)
