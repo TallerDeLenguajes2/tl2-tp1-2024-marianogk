@@ -1,6 +1,12 @@
-class CadeteriaCSV
+using System.Text.Json;
+public abstract class AccesoADatos
 {
-    public static List<Cadeteria> LeerCadeterias(string archivo)
+    public abstract List<Cadeteria> LeerCadeterias(string archivo);
+    public abstract List<Cadete> LeerCadetes(string archivo);
+}
+public class AccesoCSV : AccesoADatos
+{
+    public override List<Cadeteria> LeerCadeterias(string archivo)
     {
         var cadeterias = new List<Cadeteria>();
         using var lector = new StreamReader(archivo);
@@ -38,7 +44,7 @@ class CadeteriaCSV
         }
         return cadeterias;
     }
-    public static List<Cadete> LeerCadetes(string archivo)
+    public override List<Cadete> LeerCadetes(string archivo)
     {
         var cadetes = new List<Cadete>();
         using var lector = new StreamReader(archivo);
@@ -79,4 +85,58 @@ class CadeteriaCSV
         }
         return cadetes;
     }
+}
+
+public class AccesoJSON : AccesoADatos
+{
+    public override List<Cadeteria> LeerCadeterias(string archivo)
+    {
+        try
+        {
+            if (Existe(archivo))
+            {
+                string jsonString = File.ReadAllText(archivo);
+                List<Cadeteria> cadeterias = JsonSerializer.Deserialize<List<Cadeteria>>(jsonString);
+                return cadeterias;
+            }
+            else
+            {
+                return [];
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("\nError al leer el archivo: " + ex.Message);
+            return [];
+        }
+    }
+
+    public override List<Cadete> LeerCadetes(string archivo)
+    {
+        try
+        {
+            if (Existe(archivo))
+            {
+                string jsonString = File.ReadAllText(archivo);
+                List<Cadete> cadetes = JsonSerializer.Deserialize<List<Cadete>>(jsonString);
+                return cadetes;
+            }
+            else
+            {
+                return [];
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("\nError al leer el archivo: " + ex.Message);
+            return [];
+        }
+    }
+
+    // Metodo para verificar si un archivo existe y tiene datos
+    public static bool Existe(string archivo)
+    {
+        return File.Exists(archivo) && new FileInfo(archivo).Length > 0;
+    }
+
 }
