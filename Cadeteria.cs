@@ -16,13 +16,22 @@ public class Cadeteria
         listadoPedidos = new List<Pedido>();
     }
 
-    public void AgregarPedido(Pedido pedido)
+    public void AgregarPedido(int nro, string obs)
     {
+        Pedido pedido = new()
+        {
+            Nro = nro,
+            Obs = obs,
+            Estado = Pedido.EstadoP.Pendiente,
+            Cliente = Cliente.CrearCliente(),
+            Cadete = null
+        };
         listadoPedidos.Add(pedido);
     }
 
-    public void EliminarPedido(Pedido pedido)
+    public void EliminarPedido(int idPedido)
     {
+        Pedido pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
         listadoPedidos.Remove(pedido);
     }
 
@@ -47,7 +56,7 @@ public class Cadeteria
         return CantidadPedidosEntregados(idCadete) * valorPorPedido;
     }
 
-    public static void AltaPedido(Cadeteria cadeteria)
+    public void AltaPedido()
     {
         Pedido nuevoPedido = new();
         int nroPedido;
@@ -65,16 +74,16 @@ public class Cadeteria
 
         nuevoPedido.Cliente = Cliente.CrearCliente();
 
-        cadeteria.AgregarPedido(nuevoPedido) ;
+        AgregarPedido(nuevoPedido.Nro, nuevoPedido.Obs);
     }
 
 
-    public static void AsignarCadeteAPedido(Cadeteria cadeteria, int idCadete, int idPedido)
+    public void AsignarCadeteAPedido(int idCadete, int idPedido)
     {
         try
         {
-            Cadete cadete = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadete);
-            Pedido pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+            Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+            Pedido pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
 
             pedido.Cadete = cadete;
 
@@ -97,13 +106,13 @@ public class Cadeteria
         }
     }
 
-    public static void ReasignarPedido(Cadeteria cadeteria, int idCadete, int idCadeteNuevo, int idPedido)
+    public void ReasignarPedido(int idCadete, int idCadeteNuevo, int idPedido)
     {
         try
         {
-            Cadete cadete = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadete);
-            Cadete cadeteNuevo = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == idCadeteNuevo);
-            Pedido pedido = cadeteria.ListadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+            Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+            Cadete cadeteNuevo = listadoCadetes.FirstOrDefault(c => c.Id == idCadeteNuevo);
+            Pedido pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
 
             if (cadete == null || cadeteNuevo == null)
             {
@@ -128,20 +137,21 @@ public class Cadeteria
     }
 
 
-    public void EliminarCadete(Cadete cadete)
+    public void EliminarCadete(int idCadete)
     {
+        Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
         listadoCadetes.Remove(cadete);
     }
 
-    public static void MostrarListaCadetes(List<Cadete> lista)
+    public void MostrarListaCadetes()
     {
-        foreach (var c in lista)
+        foreach (var c in listadoCadetes)
         {
             Cadete.MostrarCadete(c);
         }
     }
 
-    public static void MostrarInforme(Cadeteria cadeteria)
+    public void MostrarInforme()
     {
         Console.WriteLine("\nInforme de Pedidos al Finalizar la Jornada:");
 
@@ -149,10 +159,10 @@ public class Cadeteria
         float montoTotal = 0;
         int totalEnviados = 0;
 
-        foreach (var cadete in cadeteria.listadoCadetes)
+        foreach (var cadete in listadoCadetes)
         {
             int enviosCadete = CantidadPedidosEntregados(cadete.Id);
-            float jornalCadete = Cadeteria.JornalACobrar(cadete.Id);
+            float jornalCadete = JornalACobrar(cadete.Id);
 
             montoTotal += jornalCadete;
             totalEnviados += enviosCadete;
@@ -165,7 +175,7 @@ public class Cadeteria
             Console.WriteLine("------------------------------------------------");
         }
 
-        float promedioEnviados = cadeteria.listadoCadetes.Count > 0 ? (float)totalEnviados / cadeteria.listadoCadetes.Count : 0;
+        float promedioEnviados = listadoCadetes.Count > 0 ? (float)totalEnviados / listadoCadetes.Count : 0;
 
         // Mostrar datos totales
         Console.WriteLine($"Total de Envíos: {totalEnviados}");

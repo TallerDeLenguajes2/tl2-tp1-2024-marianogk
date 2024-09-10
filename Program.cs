@@ -53,7 +53,7 @@
             switch (opcion)
             {
                 case "1":
-                    Cadeteria.AltaPedido(cadeteria1);
+                    cadeteria1.AltaPedido();
                     Pedido.MostrarPedido(pedido1);
 
                     break;
@@ -69,7 +69,7 @@
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
                     Pedido pedidoBuscado = cadeteria1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-                    Cadeteria.AsignarCadeteAPedido(cadeteria1, nroCadete, nroPedido);
+                    cadeteria1.AsignarCadeteAPedido(nroCadete, nroPedido);
                     break;
                 case "3":
                     Console.WriteLine("\nIngrese el numero del pedido a actualizar:");
@@ -97,16 +97,16 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Cadeteria.ReasignarPedido(cadeteria1, nroCadete, nroCadete2, nroPedido);
+                    cadeteria1.ReasignarPedido(nroCadete, nroCadete2, nroPedido);
                     break;
                 case "5":
                     Pedido.MostrarListaPedidos(cadeteria1.ListadoPedidos);
                     break;
                 case "6":
-                    Cadeteria.MostrarListaCadetes(ListaCadetes);
+                    cadeteria1.MostrarListaCadetes();
                     break;
                 case "7":
-                    Cadeteria.MostrarInforme(cadeteria1);
+                    cadeteria1.MostrarInforme();
                     break;
                 case "8":
                     opcion = "8";
