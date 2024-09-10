@@ -35,11 +35,10 @@ public class Cadeteria
         listadoPedidos.Remove(pedido);
     }
 
-    public static int CantidadPedidosEntregados(int idCadete)
+    public int CantidadPedidosEntregados(int idCadete)
     {
-        Cadeteria cadeteria = new();
         int envios = 0;
-        foreach (var pedido in cadeteria.ListadoPedidos)
+        foreach (var pedido in listadoPedidos)
         {
             if (pedido.Cadete.Id == idCadete)
             {
@@ -49,7 +48,7 @@ public class Cadeteria
         return envios;
     }
 
-    public static float JornalACobrar(int idCadete)
+    public float JornalACobrar(int idCadete)
     {
         float valorPorPedido = 500;
 
@@ -72,8 +71,6 @@ public class Cadeteria
         Console.WriteLine("\nIngrese las observaciones del pedido:");
         nuevoPedido.Obs = Console.ReadLine();
 
-        nuevoPedido.Cliente = Cliente.CrearCliente();
-
         AgregarPedido(nuevoPedido.Nro, nuevoPedido.Obs);
     }
 
@@ -85,8 +82,6 @@ public class Cadeteria
             Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
             Pedido pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
 
-            pedido.Cadete = cadete;
-
             if (cadete == null)
             {
                 throw new Exception("Cadete no encontrado.");
@@ -97,6 +92,7 @@ public class Cadeteria
             {
                 throw new Exception("El pedido debe ser creado primero.");
             }
+            pedido.Cadete = cadete;
 
             Console.WriteLine("\nPedido asignado al cadete: " + cadete.Id);
         }
@@ -126,7 +122,6 @@ public class Cadeteria
             }
 
             // Asignar el pedido al NUEVO cadete
-            pedido.Cadete = null;
             pedido.Cadete = cadeteNuevo;
             Console.WriteLine("\nPedido reasignado al cadete: " + cadeteNuevo.Id);
         }
@@ -147,7 +142,7 @@ public class Cadeteria
     {
         foreach (var c in listadoCadetes)
         {
-            Cadete.MostrarCadete(c);
+            MostrarCadete(c.Id);
         }
     }
 
@@ -183,4 +178,90 @@ public class Cadeteria
         Console.WriteLine($"Promedio de Envíos por Cadete: {promedioEnviados:F2}");
 
     }
+
+    public void ActualizarEstado(int idPedido)
+    {
+        Pedido pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+        if (pedido != null)
+        {
+            Console.WriteLine("\n1. Pendiente ");
+            Console.WriteLine("\n2. En Proceso ");
+            Console.WriteLine("\n3. Completado ");
+            Console.WriteLine("\n4. Cancelado ");
+            Console.WriteLine("\nSeleccione el estado:");
+            string opcionEstado = Console.ReadLine();
+            switch (opcionEstado)
+            {
+                case "2":
+                    pedido.Estado = Pedido.EstadoP.EnProceso;
+                    break;
+                case "3":
+                    pedido.Estado = Pedido.EstadoP.Completado;
+                    break;
+                case "4":
+                    pedido.Estado = Pedido.EstadoP.Cancelado;
+                    break;
+                default:
+                    pedido.Estado = Pedido.EstadoP.Pendiente;
+                    break;
+            }
+            Console.WriteLine("\nEstado actualizado!");
+        }
+        else
+        {
+            Console.WriteLine("\nNo existe el pedido");
+        }
+    }
+
+    public void MostrarPedido(int idPedido)
+    {
+
+        Pedido pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+        if (pedido != null)
+        {
+            Console.WriteLine("\nPEDIDO Nro : " + pedido.Nro);
+            Console.WriteLine("Observacion: " + pedido.Obs);
+            Console.WriteLine("Estado: " + pedido.Estado);
+            Console.WriteLine("\nCLIENTE");
+            MostrarCliente(pedido.Nro);
+            if (pedido.Cadete != null)
+            {
+                Console.WriteLine("\nCADETE");
+                MostrarCadete(pedido.Cadete.Id);
+            }
+        }
+    }
+
+    public void MostrarListaPedidos()
+    {
+        foreach (var p in listadoPedidos)
+        {
+            MostrarPedido(p.Nro);
+        }
+    }
+
+    public void MostrarCliente(int idPedido)
+    {
+        Pedido pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+        if (pedido != null)
+        {
+            Console.WriteLine("Nombre: " + pedido.Cliente.Nombre);
+            Console.WriteLine("Direccion: " + pedido.Cliente.Direccion);
+            Console.WriteLine("Telefono: " + pedido.Cliente.Telefono);
+            Console.WriteLine("Direccion referencia: " + pedido.Cliente.DatosReferenciaDireccion);
+        }
+    }
+
+    public void MostrarCadete(int idCadete)
+    {
+        Cadete cadete = listadoCadetes.FirstOrDefault(c => c.Id == idCadete);
+        if (cadete != null)
+        {
+            Console.WriteLine("\nCADETE Nro : " + cadete.Id);
+            Console.WriteLine("Nombre: " + cadete.Nombre);
+            Console.WriteLine("Direccion: " + cadete.Direccion);
+            Console.WriteLine("Telefono: " + cadete.Telefono);
+        }
+    }
+
 }

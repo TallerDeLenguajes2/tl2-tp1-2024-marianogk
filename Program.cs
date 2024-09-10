@@ -54,8 +54,8 @@
             {
                 case "1":
                     cadeteria1.AltaPedido();
-                    Pedido.MostrarPedido(pedido1);
-
+                    int id = cadeteria1.ListadoPedidos.Last().Nro;
+                    cadeteria1.MostrarPedido(id);
                     break;
                 case "2":
                     Console.WriteLine("\nIngrese el numero del pedido a asignar:");
@@ -78,8 +78,8 @@
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
                     pedidoBuscado = cadeteria1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-                    Pedido.ActualizarEstado(pedidoBuscado);
-                    Pedido.MostrarPedido(pedidoBuscado);
+                    cadeteria1.ActualizarEstado(nroPedido);
+                    cadeteria1.MostrarPedido(nroPedido);
                     break;
                 case "4":
                     Console.WriteLine("\nIngrese el numero del pedido a reasignar:");
@@ -100,7 +100,7 @@
                     cadeteria1.ReasignarPedido(nroCadete, nroCadete2, nroPedido);
                     break;
                 case "5":
-                    Pedido.MostrarListaPedidos(cadeteria1.ListadoPedidos);
+                    cadeteria1.MostrarListaPedidos();
                     break;
                 case "6":
                     cadeteria1.MostrarListaCadetes();
