@@ -12,21 +12,26 @@ public class Cliente
 
     public Cliente() { }
 
-    public static Cliente CrearCliente()
+    public static Cliente CrearCliente(string nombre, string direccion, string telefono, string datosReferencia)
     {
-        Cliente nuevoCliente = new();
+        Cliente nuevoCliente = new Cliente{
+            Nombre = nombre,
+            Direccion = direccion,
+            Telefono = telefono,
+            DatosReferenciaDireccion = datosReferencia
+        };
 
-        Console.WriteLine("\nIngrese el nombre del cliente:");
-        nuevoCliente.Nombre = Console.ReadLine();
+        // Console.WriteLine("\nIngrese el nombre del cliente:");
+        //  Console.ReadLine();
 
-        Console.WriteLine("\nIngrese la dirección:");
-        nuevoCliente.Direccion = Console.ReadLine();
+        // Console.WriteLine("\nIngrese la dirección:");
+        // nuevoCliente.Direccion = Console.ReadLine();
 
-        Console.WriteLine("\nIngrese el telefono:");
-        nuevoCliente.Telefono = Console.ReadLine();
+        // Console.WriteLine("\nIngrese el telefono:");
+        // nuevoCliente.Telefono = Console.ReadLine();
 
-        Console.WriteLine("\nIngrese datos de referencia para la direccion:");
-        nuevoCliente.DatosReferenciaDireccion = Console.ReadLine();
+        // Console.WriteLine("\nIngrese datos de referencia para la direccion:");
+        // nuevoCliente.DatosReferenciaDireccion = Console.ReadLine();
         return nuevoCliente;
     }
 }

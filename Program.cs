@@ -4,12 +4,8 @@
     {
         Cadeteria cadeteria1 = new();
 
-        // List<Pedido> ListaPedidos = new();
-
-        Pedido pedido1 = new();
-        Cadete cadete1 = new(), cadete2 = new();
-        string opcion;
-        int nroPedido, nroCadete, nroCadete2;
+        string opcionMenu;
+        int nroPedido, nroCadete;
         string archivoCadeterias = "cadeteria.csv";
         string archivoCadetes = "cadete.csv";
         var ListaCadeterias = new List<Cadeteria>();
@@ -27,7 +23,7 @@
         }
         else
         {
-            AccesoCSV accesoCSV = new ();
+            AccesoCSV accesoCSV = new();
 
             ListaCadeterias = accesoCSV.LeerCadeterias(archivoCadeterias);
             ListaCadetes = accesoCSV.LeerCadetes(archivoCadetes);
@@ -48,14 +44,25 @@
         do
         {
             MenuPrincipal();
-            opcion = Console.ReadLine();
+            opcionMenu = Console.ReadLine();
 
-            switch (opcion)
+            switch (opcionMenu)
             {
                 case "1":
-                    cadeteria1.AltaPedido();
-                    int id = cadeteria1.ListadoPedidos.Last().Nro;
-                    cadeteria1.MostrarPedido(id);
+                    try
+                    {
+                        AltaPedido(out nroPedido, out string obs, out string nombre, out string direccion, out string telefono, out string datosReferencia);
+                        cadeteria1.AgregarPedido(nroPedido, obs, nombre, direccion, telefono, datosReferencia);
+                        List<string> pedidoInfo = cadeteria1.MostrarPedido(nroPedido);
+                        foreach (var linea in pedidoInfo)
+                        {
+                            Console.WriteLine(linea);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"\nError al crear el pedido: {ex.Message}");
+                    }
                     break;
                 case "2":
                     Console.WriteLine("\nIngrese el numero del pedido a asignar:");
@@ -68,8 +75,15 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Pedido pedidoBuscado = cadeteria1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-                    cadeteria1.AsignarCadeteAPedido(nroCadete, nroPedido);
+                    try
+                    {
+                        cadeteria1.AsignarCadeteAPedido(nroCadete, nroPedido);
+                        Console.WriteLine("\nPedido asignado al cadete: " + nroCadete);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"\nError al asignar el pedido: {ex.Message}");
+                    }
                     break;
                 case "3":
                     Console.WriteLine("\nIngrese el numero del pedido a actualizar:");
@@ -77,9 +91,26 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    pedidoBuscado = cadeteria1.ListadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
-                    cadeteria1.ActualizarEstado(nroPedido);
-                    cadeteria1.MostrarPedido(nroPedido);
+                    Console.WriteLine("\n1. Pendiente ");
+                    Console.WriteLine("\n2. En Proceso ");
+                    Console.WriteLine("\n3. Completado ");
+                    Console.WriteLine("\n4. Cancelado ");
+                    Console.WriteLine("\nSeleccione el estado:");
+                    string opcionEstado = Console.ReadLine();
+                    try
+                    {
+                        cadeteria1.ActualizarEstado(nroPedido, opcionEstado);
+                        Console.WriteLine("\nEstado actualizado!");
+                        List<string> pedidoInfo = cadeteria1.MostrarPedido(nroPedido);
+                        foreach (var linea in pedidoInfo)
+                        {
+                            Console.WriteLine(linea);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"\nError al actualizar el estado del pedido: {ex.Message}");
+                    }
                     break;
                 case "4":
                     Console.WriteLine("\nIngrese el numero del pedido a reasignar:");
@@ -87,38 +118,53 @@
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Console.WriteLine("\nIngrese el id del cadete asignado:");
+                    Console.WriteLine("\nIngrese el id del NUEVO cadete reasignado:");
                     while (!int.TryParse(Console.ReadLine(), out nroCadete))
                     {
                         Console.WriteLine("Por favor, ingrese un numero.");
                     }
-                    Console.WriteLine("\nIngrese el id del NUEVO cadete reasignado:");
-                    while (!int.TryParse(Console.ReadLine(), out nroCadete2))
+                    try
                     {
-                        Console.WriteLine("Por favor, ingrese un numero.");
+                        cadeteria1.ReasignarPedido(nroCadete, nroPedido);
+                        Console.WriteLine("\nPedido reasignado al cadete: " + nroCadete);
                     }
-                    cadeteria1.ReasignarPedido(nroCadete, nroCadete2, nroPedido);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"\nError al reasignar el pedido: {ex.Message}");
+                    }
                     break;
                 case "5":
-                    cadeteria1.MostrarListaPedidos();
+                    List<string> listaPedidos = cadeteria1.MostrarListaPedidos();
+                    foreach (var linea in listaPedidos)
+                    {
+                        Console.WriteLine(linea);
+                    }
                     break;
                 case "6":
-                    cadeteria1.MostrarListaCadetes();
+                    List<string> listaCadetes = cadeteria1.MostrarListaCadetes();
+                    foreach (var linea in listaCadetes)
+                    {
+                        Console.WriteLine(linea);
+                    }
                     break;
                 case "7":
-                    cadeteria1.MostrarInforme();
+                    Console.WriteLine("\nInforme de Pedidos al Finalizar la Jornada:");
+                    List<string> informe = cadeteria1.MostrarInforme();
+                    foreach (var linea in informe)
+                    {
+                        Console.WriteLine(linea);
+                    }
                     break;
                 case "8":
-                    opcion = "8";
+                    opcionMenu = "8";
                     break;
                 default:
-                    Console.WriteLine("\nOpcion no valida.\n");
+                    Console.WriteLine("\nOpcionMenu no valida.\n");
                     break;
             }
 
-        } while (opcion != "8");
+        } while (opcionMenu != "8");
     }
-
 
     public static void MenuPrincipal()
     {
@@ -131,6 +177,31 @@
         Console.WriteLine("\n7. Mostrar informe ");
         Console.WriteLine("\n8. Salir ");
         Console.WriteLine("\nIngrese:");
+    }
+
+    public static void AltaPedido(out int nroPedido, out string obs, out string nombre, out string direccion, out string telefono, out string datosReferencia)
+    {
+        Console.WriteLine("\nIngrese el numero del pedido:");
+        // Controlar hasta que ingrese un numero
+        while (!int.TryParse(Console.ReadLine(), out nroPedido))
+        {
+            Console.WriteLine("Por favor, ingrese un numero.");
+        }
+
+        Console.WriteLine("\nIngrese las observaciones del pedido:");
+        obs = Console.ReadLine();
+
+        Console.WriteLine("\nIngrese el nombre del cliente:");
+        nombre = Console.ReadLine();
+
+        Console.WriteLine("\nIngrese la dirección:");
+        direccion = Console.ReadLine();
+
+        Console.WriteLine("\nIngrese el telefono:");
+        telefono = Console.ReadLine();
+
+        Console.WriteLine("\nIngrese datos de referencia para la direccion:");
+        datosReferencia = Console.ReadLine();
     }
 
 }
